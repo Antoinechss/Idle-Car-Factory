@@ -6,6 +6,7 @@ class Wallet
     public :
     // attributes 
         float budget;
+
         
         std::string reset_wallet(){
             /*
@@ -22,7 +23,7 @@ class Market
     public :
     // attributes 
         float sell_price;
-        float demand_rate; 
+        float sell_rate; 
 
         std::string reset_wallet(){
             /*

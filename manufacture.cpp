@@ -19,15 +19,33 @@ public :
 
     // Constructor 
 
-    Factory 
+    Factory();
 
-    // Reset method when starting new game 
-
-    void reset_factory 
+    std::string reset_factory(){
+    /*
+    Setting inventory to 0 for initialing a new game 
+    */ 
+        for (auto component : components){
+            component_inventory[component] = 0
+        }
+        car_inventory = 0
+        std::cout << "resetting factory" << std::endl;
+    }
 
     // Method buy 
+
+    void buy(std::string component){
+        component_inventory[component] += 1
+        // deduce from budget 
+    }
     
-    // Méthode build car 
+    // Method build car 
+    void build_car(){
+        // checking for enough inventory 
+        
+        // building car 
+        // removing inventory 
+    }
 
 }
 

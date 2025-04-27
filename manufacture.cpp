@@ -32,19 +32,34 @@ public :
         std::cout << "resetting factory" << std::endl;
     }
 
-    // Method buy 
+    // Method to buy components
 
     void buy(std::string component){
         component_inventory[component] += 1
         // deduce from budget 
     }
     
-    // Method build car 
     void build_car(){
-        // checking for enough inventory 
-        
-        // building car 
-        // removing inventory 
+    /*
+    Building a car    
+    */ 
+        // checking for available components 
+        if (component_inventory["wheel"] < 4 || 
+            component_inventory["electronics"] < 1 || 
+            component_inventory["glass"] < 6 || 
+            component_inventory["frame"] < 1 || 
+            component_inventory["engine"] < 1){
+                std::cout << "insufficient inventory" << std::endl;
+            }
+
+        else {
+            component_inventory["wheel"] -= 4;
+            component_inventory["electronics"] -= 1;
+            component_inventory["glass"] -= 6;
+            component_inventory["frame"] -= 1;
+            component_inventory["engine"] -= 1;
+            car_inventory += 1;
+        }
     }
 
 }

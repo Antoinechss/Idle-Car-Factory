@@ -2,14 +2,37 @@
 #include <string>
 #include <map>
 #include <list>
-#include <cout>
 
-auto components = std::list<std::string>{
-    "wheel",
-    "electronics",
-    "glass",
-    "frame",
-    "engine"
-};
+class Factory
+{
+public : 
+    // attributs 
+    auto components = std::list<std::string>{
+        "wheel",
+        "electronics",
+        "glass",
+        "frame",
+        "engine"
+    };
+    auto component_inventory;
+    int car_inventory;
 
-std::cout << components << std::endl;
+    // Constructor 
+
+    Factory 
+
+    // Reset method when starting new game 
+
+    void reset_factory 
+
+    // Method buy 
+    
+    // Méthode build car 
+
+}
+
+int main() {
+    return 0;
+    };
+
+

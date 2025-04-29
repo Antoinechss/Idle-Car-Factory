@@ -1,38 +1,21 @@
 #include "business.h"
 
-#include <iostream>
-#include <string>
-
-class Wallet
-{
-    public :
-    // attributes 
-        float budget;
-
-        
-        std::string reset_wallet(){
-            /*
-            Setting gains to 0 for initialing a new game 
-            */ 
-                budget = 0
-                std::cout << "resetting wallet" << std::endl;
-            }
-
+void Wallet::reset_wallet(){
+    /*
+    Setting gains to 0 for initializing a new game
+    */
+    budget = 0;
+    std::cout << "resetting wallet" << std::endl;
 }
 
-class Market 
-{
-    public :
-    // attributes 
-        float sell_price;
-        float sell_rate; 
+void Wallet::update_budget(double cashflow){
+    budget = budget + cashflow;
+}
 
-        std::string reset_wallet(){
-            /*
-            Reseting market for initialing a new game 
-            */ 
-                sell_price = 0
-                std::cout << "Resetting Market" << std::endl;
-            }
-
+void Market::reset_market(){
+    /*
+    Reseting market for initialing a new game
+    */
+    sell_price = 0;
+    std::cout << "Resetting Market" << std::endl;
 }

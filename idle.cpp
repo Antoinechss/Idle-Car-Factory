@@ -1,5 +1,5 @@
-#include "business.h"
 #include "manufacture.h"
+
 #include <iostream>
 #include <string>
 

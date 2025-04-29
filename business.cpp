@@ -1,21 +1,43 @@
 #include "business.h"
 
-void Wallet::reset_wallet(){
+Wallet::Wallet(){
     /*
     Setting gains to 0 for initializing a new game
     */
     budget = 0;
-    std::cout << "resetting wallet" << std::endl;
+    std::cout << "creating a wallet" << std::endl;
 }
 
 void Wallet::update_budget(double cashflow){
     budget = budget + cashflow;
 }
 
-void Market::reset_market(){
+double Wallet::get_budget() const {
+    return budget;
+}
+
+Market::Market(){
     /*
     Reseting market for initialing a new game
     */
-    sell_price = 0;
-    std::cout << "Resetting Market" << std::endl;
+    sell_price = 0;//to change
+    sell_rate = 0;//to change
+    std::cout << "Creating a new Market" << std::endl;
+}
+
+
+void Market::set_sell_price(double price) {
+    sell_price = price;
+}
+
+void Market::set_sell_rate(double rate) {
+    sell_rate = rate;
+}
+
+double Market::get_sell_price() const {
+    return sell_price;
+}
+
+double Market::get_sell_rate() const {
+    return sell_rate;
 }

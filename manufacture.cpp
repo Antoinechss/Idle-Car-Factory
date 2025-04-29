@@ -1,7 +1,7 @@
 #include "manufacture.h"
 
 
-void Factory::reset_factory() {
+Factory::Factory(){
     /*
     Setting inventory to 0 for initialing a new game
     */
@@ -9,13 +9,13 @@ void Factory::reset_factory() {
         component.second = 0;
     }
     car_inventory = 0;
-    std::cout << "resetting factory" << std::endl;
+    std::cout << "creating a reset factory" << std::endl;
 }
 bool Factory:: insufficient_Inventory(){
-    return component_inventory.at("wheel") < 4 &&
-           component_inventory.at("electronics") < 1 &&
-           component_inventory.at("glass") < 6 &&
-           component_inventory.at("frame") < 1 &&
+    return component_inventory.at("wheel") < 4 ||
+           component_inventory.at("electronics") < 1 ||
+           component_inventory.at("glass") < 6 ||
+           component_inventory.at("frame") < 1 ||
            component_inventory.at("engine") < 1;
 }
 
@@ -37,9 +37,9 @@ Building a car
     }
 }
 
-void Factory::buy(std::string component){
+void Factory::buy(const std::string &component, double price){
     component_inventory[component] += 1;
     // deduce from budget
-
+    wallet.update_budget(-price);
 }
 

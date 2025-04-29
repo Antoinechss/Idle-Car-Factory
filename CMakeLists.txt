@@ -8,6 +8,6 @@ find_package(Imagine REQUIRED COMPONENTS Graphics)
 
 add_executable(CarFactory
                idle.cpp
-               business.cpp
-               manufacture.cpp)
+               business.cpp business.h
+               manufacture.cpp manufacture.h)
 target_link_libraries(CarFactory Imagine::Graphics)

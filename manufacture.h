@@ -10,6 +10,8 @@
 class Factory
 {
     // attributs
+
+public :
     std::unordered_map<std::string, int> component_inventory = {
         {"wheel", 0},
         {"electronics", 0},
@@ -18,10 +20,7 @@ class Factory
         {"engine", 0}
     };
     int car_inventory;
-
     Wallet wallet;
-
-public :
     // Constructor
     Factory();
     bool insufficient_Inventory();

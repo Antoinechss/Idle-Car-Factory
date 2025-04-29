@@ -38,6 +38,8 @@ Building a car
 }
 
 void Factory::buy(const std::string &component, double price){
+    //ajouter une fonction check_budget
+
     component_inventory[component] += 1;
     // deduce from budget
     wallet.update_budget(-price);

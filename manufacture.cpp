@@ -44,11 +44,14 @@ public:
         Buying component stock and updating quantity and budget 
         */
         // checking for sufficient budget 
-        // TODO
-        // deduct from budget (to be implemented)
-        // TODO
-        // Update inventory 
-        inventory["wheel"].second  += 1;
+        if (wallet.budget < inventory[component].first){
+            std::cout << "Insufficient funds" << std::endl;
+        }
+        else {
+            // Updating inventory and budget after purchase 
+            inventory[component].second  += 1;
+            wallet.budget -= inventory[component].first;
+        }
     }
 
     void build_car() {
@@ -61,7 +64,6 @@ public:
             inventory["glass"].second < 6 ||
             inventory["frame"].second < 1 ||
             inventory["engine"].second < 1) {
-
             std::cout << "Insufficient inventory" << std::endl;
         } else {
             inventory["wheel"].second  -= 4;
@@ -70,7 +72,6 @@ public:
             inventory["wheel"].second  -= 1;
             inventory["wheel"].second  -= 1;
             car_inventory += 1;
-
             std::cout << "Car built!" << std::endl;
         }
     }

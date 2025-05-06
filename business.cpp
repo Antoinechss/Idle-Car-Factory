@@ -1,5 +1,24 @@
 #include "business.h"
 
+class Wallet 
+{
+    public : 
+    double budget 
+    double sell_
+
+    Wallet() {
+        reset_market();
+        reset_wallet();
+        set_sell_price();
+        set_sell_rate(); 
+    }
+
+    void reset_market(){
+
+    }
+}
+
+
 Wallet::Wallet(){
     /*
     Setting gains to 0 for initializing a new game

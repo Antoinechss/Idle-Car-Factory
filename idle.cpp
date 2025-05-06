@@ -29,8 +29,8 @@ int main(){
     //EXEMPLE DEVOLUTION, MERCI MISTRAL
 
     // Exemple d'achat de composants
-    factory.buy("wheel", 100.0);    // Achat d'une roue à 100 €
-    factory.buy("electronics", 500.0); // Achat d'électronique à 500 €
+    factory.buy("wheel");    // Achat d'une roue à 100 €
+    factory.buy("electronics"); // Achat d'électronique à 500 €
 
     // Affichage du budget après achat de composants
     std::cout << "Budget après achat de composants: " << factory.wallet.get_budget() << " €" << std::endl;

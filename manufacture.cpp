@@ -1,85 +1,63 @@
-#include <iostream>
-#include <string>
-#include <map>
-#include <list>
+#include "manufacture.h"
 
-class Factory
-{
-public:
-
-    std::map<std::string, std::pair<double, int>> inventory;
-    // Initializing components price and stock 
+Factory::Factory(){
     inventory["wheel"] = {1000.0, 0};
     inventory["engine"] = {2000.0, 0};
     inventory["glass"] = {500.0, 0};
     inventory["electronics"] = {10.0, 0};
     inventory["frame"] = {500.0, 0};
-
-    int car_inventory; // number of cars available for sale 
-
-    // Constructor
-    Factory() {
-        reset_factory();
-        buy();
-        build_car();
-    }
-
-    void reset_factory() {
-        /*
-        Initializing a new empty factory
-        */
-        inventory["wheel"].second  = 0;
-        inventory["engine"].second  = 0;
-        inventory["glass"].second  = 0;
-        inventory["electronics"].second  = 0;
-        inventory["frame"].second  = 0;
-        car_inventory = 0;
-
-        std::cout << "Resetting factory" << std::endl;
-
-    }
-
-    void buy(const std::string& component) {
-        /*
-        Buying component stock and updating quantity and budget 
-        */
-        // checking for sufficient budget 
-        if (wallet.budget < inventory[component].first){
-            std::cout << "Insufficient funds" << std::endl;
-        }
-        else {
-            // Updating inventory and budget after purchase 
-            inventory[component].second  += 1;
-            wallet.budget -= inventory[component].first;
-        }
-    }
-
-    void build_car() {
-        /*
-        Building a car    
-        */
-        // checking for available components 
-        if (inventory["wheel"].second < 4 ||
-            inventory["electronics"].second < 1 ||
-            inventory["glass"].second < 6 ||
-            inventory["frame"].second < 1 ||
-            inventory["engine"].second < 1) {
-            std::cout << "Insufficient inventory" << std::endl;
-        } else {
-            inventory["wheel"].second  -= 4;
-            inventory["wheel"].second  -= 1;
-            inventory["wheel"].second  -= 6;
-            inventory["wheel"].second  -= 1;
-            inventory["wheel"].second  -= 1;
-            car_inventory += 1;
-            std::cout << "Car built!" << std::endl;
-        }
-    }
+    car_inventory = 0;
+    wallet.budget = 10000;
 };
 
-// Pour test local
-int main() {
-    Factory f;
-    f.buy("wheel");
-    return 0;
+void Factory::reset_factory() {
+    /*
+    Initializing a new empty factory
+    */
+    inventory["wheel"].second  = 0;
+    inventory["engine"].second  = 0;
+    inventory["glass"].second  = 0;
+    inventory["electronics"].second  = 0;
+    inventory["frame"].second  = 0;
+    car_inventory = 0;
+
+    std::cout << "Resetting factory" << std::endl;
+
+}
+
+void Factory::buy(const std::string& component) {
+    /*
+    Buying component stock and updating quantity and budget 
+    */
+    // checking for sufficient budget 
+    if (wallet.budget < inventory[component].first){
+        std::cout << "Insufficient funds" << std::endl;
+    }
+    else {
+        // Updating inventory and budget after purchase 
+        inventory[component].second  += 1;
+        wallet.budget -= inventory[component].first;
+    }
+}
+
+void Factory::build_car() {
+    /*
+    Building a car    
+    */
+    // checking for available components 
+    if (inventory["wheel"].second < 4 ||
+        inventory["electronics"].second < 1 ||
+        inventory["glass"].second < 6 ||
+        inventory["frame"].second < 1 ||
+        inventory["engine"].second < 1) {
+        std::cout << "Insufficient inventory" << std::endl;
+    } else {
+        inventory["wheel"].second  -= 4;
+        inventory["electronics"].second  -= 1;
+        inventory["glass"].second  -= 6;
+        inventory["frame"].second  -= 1;
+        inventory["engine"].second  -= 1;
+        car_inventory += 1;
+        std::cout << "Car built!" << std::endl;
+    }
 }

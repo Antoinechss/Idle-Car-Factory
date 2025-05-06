@@ -1,26 +1,18 @@
-#pragma once
+#pragma once 
 
-#include <iostream>
-#include <string>
-class Wallet{
-    // attributes
+class Wallet 
+{
+    public : 
     double budget;
-public :
-    //constructeur d'un Wallet avec un budget initialisé à 0
-    Wallet();
-    void update_budget(double cashflow);
-    double get_budget() const;
-};
-
-class Market{
-    // attributes
-    double sell_price;
     double sell_rate;
+    double sell_price;
+    double popularity;
 
-public :
-    Market();
+    Wallet();
+
+    void reset_market();
+    void reset_wallet();
     void set_sell_price(double price);
-    void set_sell_rate(double rate);
-    double get_sell_price() const;
-    double get_sell_rate() const;
+    void update_sell_rate(); 
+
 };

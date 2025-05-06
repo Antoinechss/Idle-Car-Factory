@@ -9,25 +9,19 @@
 
 class Factory
 {
-    // attributs
-
-public :
-    std::unordered_map<std::string, int> component_inventory = {
-        {"wheel", 0},
-        {"electronics", 0},
-        {"glass", 0},
-        {"frame", 0},
-        {"engine", 0}
-    };
-    int car_inventory;
+public:
     Wallet wallet;
+
+    std::map<std::string, std::pair<double, int>> inventory;
+    // Initializing components price and stock 
+
+
+    int car_inventory; // number of cars available for sale 
+
     // Constructor
     Factory();
-    bool insufficient_Inventory();
+    
+    void reset_factory();
+    void buy(const std::string& component);
     void build_car();
-
-    // Method to buy components
-    void buy(const std::string& component, double price);
-
-
 };

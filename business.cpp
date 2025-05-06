@@ -3,8 +3,9 @@
 class Wallet 
 {
     public : 
-    double budget 
-    double sell_
+    double budget;
+    double sell_rate;
+    double sell_price;
 
     Wallet() {
         reset_market();
@@ -14,49 +15,23 @@ class Wallet
     }
 
     void reset_market(){
+        sell_rate = 0;
+        sell_price = 0;
 
+        std::cout << "Resetting market values" << std::endl;
     }
-}
+    
+    void reset_wallet(){
+        budget = 0;
 
+        std::cout << "Creating a new empty wallet" << std::endl;
+    }
 
-Wallet::Wallet(){
-    /*
-    Setting gains to 0 for initializing a new game
-    */
-    budget = 0;
-    std::cout << "creating a wallet" << std::endl;
-}
+    void Market::set_sell_price(double price) {
+        sell_price = price;
+    }
 
-void Wallet::update_budget(double cashflow){
-    budget = budget + cashflow;
-}
-
-double Wallet::get_budget() const {
-    return budget;
-}
-
-Market::Market(){
-    /*
-    Reseting market for initialing a new game
-    */
-    sell_price = 0;//to change
-    sell_rate = 0;//to change
-    std::cout << "Creating a new Market" << std::endl;
-}
-
-
-void Market::set_sell_price(double price) {
-    sell_price = price;
-}
-
-void Market::set_sell_rate(double rate) {
-    sell_rate = rate;
-}
-
-double Market::get_sell_price() const {
-    return sell_price;
-}
-
-double Market::get_sell_rate() const {
-    return sell_rate;
+    void Market::set_sell_rate() {
+        // TODO : set sell rate as a function of sell price of car ;
+    }
 }

@@ -29,10 +29,10 @@ public:
         Initializing a new empty factory
         */
         inventory["wheel"].second  = 0;
-        inventory["wheel"].second  = 0;
-        inventory["wheel"].second  = 0;
-        inventory["wheel"].second  = 0;
-        inventory["wheel"].second  = 0;
+        inventory["engine"].second  = 0;
+        inventory["glass"].second  = 0;
+        inventory["electronics"].second  = 0;
+        inventory["frame"].second  = 0;
         car_inventory = 0;
 
         std::cout << "Resetting factory" << std::endl;

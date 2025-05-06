@@ -12,11 +12,13 @@ class Wallet
         reset_wallet();
         set_sell_price();
         set_sell_rate(); 
+        popularity();
     }
 
     void reset_market(){
         sell_rate = 0;
         sell_price = 0;
+        popularity = 0;
 
         std::cout << "Resetting market values" << std::endl;
     }
@@ -27,11 +29,14 @@ class Wallet
         std::cout << "Creating a new empty wallet" << std::endl;
     }
 
-    void Market::set_sell_price(double price) {
+    void set_sell_price(double price) {
         sell_price = price;
     }
 
-    void Market::set_sell_rate() {
-        // TODO : set sell rate as a function of sell price of car ;
+    void set_sell_rate() {
+        /*
+        Define sell rate as a function of price 
+        */
+        sell_rate = popularity / sell_price;
     }
 }

@@ -1,4 +1,5 @@
 #include "manufacture.h"
+#include <iostream>
 
 Factory::Factory(){
     inventory["wheel"] = {1000.0, 0};

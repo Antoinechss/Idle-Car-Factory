@@ -4,6 +4,7 @@ Wallet::Wallet()
 {
     reset_wallet();
     reset_market();
+    cars_sold_buffer;
 }
 
 void Wallet::reset_market()
@@ -11,6 +12,7 @@ void Wallet::reset_market()
     sell_rate = 0;
     sell_price = 0;
     popularity = 0;
+    cars_sold_buffer = 0;
 
     std::cout << "Resetting market values" << std::endl;
 }

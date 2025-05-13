@@ -12,6 +12,7 @@ public:
     double sell_rate;
     double sell_price;
     double popularity;
+    double cars_sold_buffer;
 
     Wallet();
 

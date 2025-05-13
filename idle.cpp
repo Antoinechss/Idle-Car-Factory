@@ -5,10 +5,12 @@ using namespace Imagine;
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <chrono>
 
 int main()
 {
     srand(100);
+    auto lastTime = std::chrono::high_resolution_clock::now();
     std::cout << "Welcome to the Car Factory Idle Game!" << std::endl;
     std::cout << "Start building now" << std::endl;
 
@@ -17,6 +19,11 @@ int main()
 
     while (true) {
         clearWindow(); // Clear previous frame
+
+        auto currentTime = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<float> elapsed = currentTime - lastTime;
+        float delta_time = elapsed.count(); // secondes
+        lastTime = currentTime;
 
         // Display budget
         std::ostringstream oss_budget;
@@ -115,6 +122,23 @@ int main()
         drawString(buildButtonX + 50, buildButtonY + 30, "Build Car", WHITE, 20);
 
 
+        // Draw Build Car button
+        int buildmaxButtonX = 470;
+        int buildmaxButtonY = 100;
+        int buildmaxButtonW = 200;
+        int buildmaxButtonH = 50;
+        fillRect(buildmaxButtonX, buildmaxButtonY, buildmaxButtonW, buildmaxButtonH, BLUE);
+        drawString(buildmaxButtonX + 50, buildmaxButtonY + 30, "Build Max Cars", WHITE, 20);
+
+        // Draw Buy and Build car button
+        int buyandbuildButtonX = 470;
+        int buyandbuildButtonY = 50;
+        int buyandbuildButtonW = 200;
+        int buyandbuildButtonH = 50;
+        fillRect(buyandbuildButtonX, buyandbuildButtonY, buyandbuildButtonW, buyandbuildButtonH, BLUE);
+        drawString(buyandbuildButtonX + 50, buyandbuildButtonY + 30, "Buy & Build Car", WHITE, 20);
+
+
         // -------------- PLAYER INTERACTION --------------
 
         int x, y;
@@ -132,19 +156,43 @@ int main()
             if (x >= buildButtonX && x <= buildButtonX + buildButtonW && y >= buildButtonY && y <= buildButtonY + buildButtonH) {
                 factory.build_car();
             }
-        }
+
+            // Build max Cars possible
+            if (x >= buildmaxButtonX && x <= buildmaxButtonX + buildmaxButtonW &&
+                y >= buildmaxButtonY && y <= buildmaxButtonY + buildmaxButtonH) {
+
+                while (factory.can_build_car()) {
+                    factory.build_car();
+                }
+            }
+
+            // Buy and build
+            if (x >= buyandbuildButtonX && x <= buyandbuildButtonX + buyandbuildButtonW &&
+                y >= buyandbuildButtonY && y <= buyandbuildButtonY + buyandbuildButtonH) {
+                factory.buy_and_build_car();
+                }
+            }
+
             // Modify sell price
             if (x >= price_down_buttonX && x <= price_down_buttonX + price_down_buttonW &&
-                y >= price_down_buttonY && y <= price_down_buttonY + price_down_buttonH) {
+                y >= price_down_buttonY && y <= price_down_buttonY + price_down_buttonH && factory.wallet.sell_price > 0) {
                 factory.wallet.set_sell_price(factory.wallet.sell_price - 1000);
+                factory.wallet.update_sell_rate();
             }
             else if (x >= price_up_buttonX && x <= price_up_buttonX + price_up_buttonW &&
                      y >= price_up_buttonY && y <= price_up_buttonY + price_up_buttonH) {
                 factory.wallet.set_sell_price(factory.wallet.sell_price + 1000);
+                factory.wallet.update_sell_rate();
             }
 
-            while(factory.car_inventory>0){
-                factory.sell_car();
+            // Selling cars according to demand
+
+            float cars_to_sell = factory.wallet.sell_rate*delta_time;
+            factory.wallet.cars_sold_buffer += cars_to_sell;
+
+            while (factory.wallet.cars_sold_buffer >= 1.0f && factory.car_inventory > 0) {
+                factory.sell_car();  // fonction qui vend 1 voiture et ajoute l'argent
+                factory.wallet.cars_sold_buffer -= 1.0f;
             }
 
         milliSleep(50);

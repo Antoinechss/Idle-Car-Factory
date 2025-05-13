@@ -9,7 +9,7 @@ Factory::Factory()
     inventory["electronics"] = {10.0, 0};
     inventory["frame"] = {500.0, 0};
     car_inventory = 0;
-    wallet.budget = 10000;
+    wallet.budget = 100000;
 };
 
 void Factory::reset_factory()
@@ -32,6 +32,7 @@ void Factory::buy(const std::string &component)
     /*
     Buying component stock and updating quantity and budget 
     */
+
     // checking for sufficient budget
     if (wallet.budget < inventory[component].first) {
         std::cout << "Insufficient funds" << std::endl;
@@ -42,17 +43,29 @@ void Factory::buy(const std::string &component)
     }
 }
 
+bool Factory::can_build_car()
+{
+    /*
+    Checks for sufficient components to build a car
+    */
+    if (inventory["wheel"].second < 4 || inventory["electronics"].second < 1
+        || inventory["glass"].second < 6 || inventory["frame"].second < 1
+        || inventory["engine"].second < 1){
+        return false;
+    }
+    else {
+        return true;
+    }
+
+}
+
 void Factory::build_car()
 {
     /*
     Building a car    
     */
     // checking for available components
-    if (inventory["wheel"].second < 4 || inventory["electronics"].second < 1
-        || inventory["glass"].second < 6 || inventory["frame"].second < 1
-        || inventory["engine"].second < 1) {
-        std::cout << "Insufficient inventory" << std::endl;
-    } else {
+    if (can_build_car()) {
         inventory["wheel"].second -= 4;
         inventory["electronics"].second -= 1;
         inventory["glass"].second -= 6;
@@ -60,6 +73,26 @@ void Factory::build_car()
         inventory["engine"].second -= 1;
         car_inventory += 1;
         std::cout << "Car built!" << std::endl;
+    }
+    else {
+        std::cout << "Insufficient inventory" << std::endl;
+    }
+}
+
+void Factory::buy_and_build_car()
+{
+    /*
+    Building a car
+    */
+    // checking for available budget
+    float car_build_price = 4*inventory["wheel"].first + inventory["electronics"].first + 6*inventory["glass"].first + inventory["frame"].first + inventory["engine"].first;
+    if (wallet.budget >= car_build_price){
+        car_inventory += 1;
+        wallet.budget -= car_build_price;
+        std::cout << "Car built!" << std::endl;
+    }
+    else {
+        std::cout << "Insufficient budget" << std::endl;
     }
 }
 

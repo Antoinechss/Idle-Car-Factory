@@ -24,4 +24,6 @@ public:
     void buy(const std::string &component);
     void build_car();
     void sell_car();
+    bool can_build_car();
+    void buy_and_build_car();
 };

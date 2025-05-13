@@ -62,3 +62,10 @@ void Factory::build_car()
         std::cout << "Car built!" << std::endl;
     }
 }
+
+void Factory::sell_car() {
+    if (car_inventory > 0) {
+        car_inventory -= 1;
+        wallet.budget += wallet.sell_price;
+    }
+}

@@ -43,6 +43,23 @@ int main()
             y_offset += 40;
         }
 
+        // Draw price modification buttons
+
+        int price_up_buttonX = 300;
+        int price_up_buttonY = 380;
+        int price_up_buttonW = 100;
+        int price_up_buttonH = 30;
+        fillRect(price_up_buttonX, price_up_buttonY, price_up_buttonW, price_up_buttonH, BLACK);
+        drawString(price_up_buttonX + price_up_buttonW/2 - 20, price_up_buttonY + price_up_buttonH/2 + 5, "raise", WHITE, 20);
+
+        int price_down_buttonX = 200;
+        int price_down_buttonY = 380;
+        int price_down_buttonW = 100;
+        int price_down_buttonH = 30;
+        fillRect(price_down_buttonX, price_down_buttonY, price_down_buttonW, price_down_buttonH, BLACK);
+        drawString(price_down_buttonX + price_down_buttonW/2 - 25, price_down_buttonY + price_down_buttonH/2 + 5, "lower", WHITE, 20);
+
+
         // Draw buy material buttons
         int buttonX = 300;
         int buttonY_start = 75;
@@ -53,6 +70,7 @@ int main()
         const std::string labels[5] = {
             "Buy electronics", "Buy engine", "Buy frame", "Buy glass", "Buy wheel"
         };
+
         const std::string components[5] = {
             "electronics", "engine", "frame", "glass", "wheel"
         };
@@ -78,13 +96,15 @@ int main()
         int buildButtonY = 145;
         int buildButtonW = 200;
         int buildButtonH = 50;
-
         fillRect(buildButtonX, buildButtonY, buildButtonW, buildButtonH, BLUE);
         drawString(buildButtonX + 50, buildButtonY + 30, "Build Car", WHITE, 20);
 
+
+        // -------------- PLAYER INTERACTION --------------
+
         int x, y;
         if (getMouse(x, y)) {
-            // Handle material purchase buttons
+            // Material purchase
             for (int i = 0; i < 5; i++) {
                 int bx = buttonX;
                 int by = buttonY_start + i * gap;
@@ -93,12 +113,24 @@ int main()
                 }
             }
 
-            // Handle Build Car button
-            if (x >= buildButtonX && x <= buildButtonX + buildButtonW &&
-                y >= buildButtonY && y <= buildButtonY + buildButtonH) {
+            // Build Car
+            if (x >= buildButtonX && x <= buildButtonX + buildButtonW && y >= buildButtonY && y <= buildButtonY + buildButtonH) {
                 factory.build_car();
             }
         }
+            // Modify sell price
+            if (x >= price_down_buttonX && x <= price_down_buttonX + price_down_buttonW &&
+                y >= price_down_buttonY && y <= price_down_buttonY + price_down_buttonH) {
+                factory.wallet.set_sell_price(factory.wallet.sell_price - 1000);
+            }
+            else if (x >= price_up_buttonX && x <= price_up_buttonX + price_up_buttonW &&
+                     y >= price_up_buttonY && y <= price_up_buttonY + price_up_buttonH) {
+                factory.wallet.set_sell_price(factory.wallet.sell_price + 1000);
+            }
+
+            while(factory.car_inventory>0){
+                factory.sell_car();
+            }
 
         milliSleep(50);
     }

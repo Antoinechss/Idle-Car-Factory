@@ -23,4 +23,5 @@ public:
     void reset_factory();
     void buy(const std::string &component);
     void build_car();
+    void sell_car();
 };

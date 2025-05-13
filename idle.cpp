@@ -27,6 +27,11 @@ int main()
         oss_car_inventory << "Car Inventory: " << factory.car_inventory << " Cars";
         drawString(20, 60, oss_car_inventory.str(), BLACK, 20);
 
+        // Display sell price of cars
+        std::ostringstream oss_sell_price;
+        oss_sell_price << "Sell Price: $" << factory.wallet.sell_price;
+        drawString(20, 400, oss_sell_price.str(), BLACK, 20);
+
         // Display materials inventory
         int y_offset = 100;
         for (const auto &item : factory.inventory) {

@@ -1,5 +1,9 @@
 #pragma once
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
+
+
 
 class Wallet
 {
@@ -15,4 +19,5 @@ public:
     void reset_wallet();
     void set_sell_price(double price);
     void update_sell_rate();
+    void update_popularity();
 };

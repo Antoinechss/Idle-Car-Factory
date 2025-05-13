@@ -27,6 +27,11 @@ void Wallet::set_sell_price(double price)
     sell_price = price;
 }
 
+
+void Wallet::update_popularity(){
+    popularity = rand() % 101;
+}
+
 void Wallet::update_sell_rate()
 {
     /*

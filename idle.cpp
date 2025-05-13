@@ -8,6 +8,7 @@ using namespace Imagine;
 
 int main()
 {
+    srand(100);
     std::cout << "Welcome to the Car Factory Idle Game!" << std::endl;
     std::cout << "Start building now" << std::endl;
 
@@ -42,6 +43,20 @@ int main()
             drawString(20, y_offset, oss_inventory.str(), BLACK, 20);
             y_offset += 40;
         }
+
+        // Update and display live popularity
+
+        factory.wallet.update_popularity();
+        std::ostringstream oss_popularity;
+        oss_popularity << "Popularity :" << factory.wallet.popularity;
+        drawString(20, 600, oss_popularity.str(), BLACK, 20);
+
+        // Update and display sell rate
+
+        factory.wallet.update_sell_rate();
+        std::ostringstream oss_sell_rate;
+        oss_sell_rate << "Sell Rate :" << factory.wallet.sell_rate;
+        drawString(20, 700, oss_sell_rate.str(), BLACK, 20);
 
         // Draw price modification buttons
 

@@ -15,7 +15,7 @@ int main()
     std::cout << "Start building now" << std::endl;
 
     Factory factory;
-    openWindow(800, 800, "Imagine++ Window");
+    openWindow(2000, 800, "Imagine++ Window");
 
     while (true) {
         clearWindow(); // Clear previous frame
@@ -25,23 +25,58 @@ int main()
         float delta_time = elapsed.count(); // secondes
         lastTime = currentTime;
 
+        factory.wallet.update_popularity();
+        factory.wallet.update_sell_rate();
+
+
+
+        // Format & esthetics
+        fillRect(0, 0, 2000, 800, Color(220, 220, 215)); // Grey background
+
+        // ---------- Displaying market stats dashboard (right part) ------------
+
+        // Background
+
+        int cardX = 1000;
+        int cardY = 50;
+        int cardWidth = 270;
+        int cardHeight = 500;
+        fillRect(cardX, cardY, cardWidth, cardHeight, WHITE);
+
+        drawString(cardX + 20, cardY + 30, "Market Stats", BLACK, 24);
+
+        // Stats inside the dashboard
+
+        int statY = cardY + 70; // starting Y position
+
+        std::ostringstream oss_popularity;
+        oss_popularity << "Popularity:" << factory.wallet.popularity; // Example: selling price
+        drawString(cardX + 20, statY, oss_popularity.str(), BLACK, 20);
+        statY += 40;
+
+        std::ostringstream oss_sell_rate;
+        oss_sell_rate << "Sell rate: " << factory.wallet.sell_rate; // Example: your budget as "liquidity"
+        drawString(cardX + 20, statY, oss_sell_rate.str(), BLACK, 20);
+        statY += 40;
+
+
         // Display budget
         std::ostringstream oss_budget;
         oss_budget << "Budget: $" << factory.wallet.budget;
-        drawString(20, 20, oss_budget.str(), BLACK, 20);
+        drawString(20, 60, oss_budget.str(), BLACK, 20);
 
         // Display car inventory
         std::ostringstream oss_car_inventory;
         oss_car_inventory << "Car Inventory: " << factory.car_inventory << " Cars";
-        drawString(20, 60, oss_car_inventory.str(), BLACK, 20);
+        drawString(20, 100, oss_car_inventory.str(), BLACK, 20);
 
         // Display sell price of cars
         std::ostringstream oss_sell_price;
         oss_sell_price << "Sell Price: $" << factory.wallet.sell_price;
-        drawString(20, 400, oss_sell_price.str(), BLACK, 20);
+        drawString(20, 440, oss_sell_price.str(), BLACK, 20);
 
         // Display materials inventory
-        int y_offset = 100;
+        int y_offset = 140;
         for (const auto &item : factory.inventory) {
             std::ostringstream oss_inventory;
             oss_inventory << item.first
@@ -50,20 +85,6 @@ int main()
             drawString(20, y_offset, oss_inventory.str(), BLACK, 20);
             y_offset += 40;
         }
-
-        // Update and display live popularity
-
-        factory.wallet.update_popularity();
-        std::ostringstream oss_popularity;
-        oss_popularity << "Popularity :" << factory.wallet.popularity;
-        drawString(20, 600, oss_popularity.str(), BLACK, 20);
-
-        // Update and display sell rate
-
-        factory.wallet.update_sell_rate();
-        std::ostringstream oss_sell_rate;
-        oss_sell_rate << "Sell Rate :" << factory.wallet.sell_rate;
-        drawString(20, 700, oss_sell_rate.str(), BLACK, 20);
 
         // Draw price modification buttons
 
@@ -139,7 +160,7 @@ int main()
         drawString(buyandbuildButtonX + 50, buyandbuildButtonY + 30, "Buy & Build Car", WHITE, 20);
 
 
-        // -------------- PLAYER INTERACTION --------------
+        // -------------- FUNCTIONNAL --------------
 
         int x, y;
         if (getMouse(x, y)) {

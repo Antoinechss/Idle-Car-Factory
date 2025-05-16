@@ -9,13 +9,14 @@ using namespace Imagine;
 
 int main()
 {
+    endGraphics();
     srand(100);
     auto lastTime = std::chrono::high_resolution_clock::now();
     std::cout << "Welcome to the Car Factory Idle Game!" << std::endl;
     std::cout << "Start building now" << std::endl;
 
     Factory factory;
-    openWindow(2000, 800, "Imagine++ Window");
+    openWindow(1400, 800, "Imagine++ Window");
 
     while (true) {
         clearWindow(); // Clear previous frame
@@ -28,122 +29,50 @@ int main()
         factory.wallet.update_popularity();
         factory.wallet.update_sell_rate();
 
-
-
-        // Format & esthetics
-        fillRect(0, 0, 2000, 800, Color(220, 220, 215)); // Grey background
-
-        // ---------- Displaying market stats dashboard (right part) ------------
-
-        // Background
-
-        int cardX = 1000;
-        int cardY = 50;
-        int cardWidth = 270;
-        int cardHeight = 500;
-        fillRect(cardX, cardY, cardWidth, cardHeight, WHITE);
-
-        drawString(cardX + 20, cardY + 30, "Market Stats", BLACK, 24);
-
-        // Stats inside the dashboard
-
-        int statY = cardY + 70; // starting Y position
-
-        std::ostringstream oss_popularity;
-        oss_popularity << "Popularity:" << factory.wallet.popularity; // Example: selling price
-        drawString(cardX + 20, statY, oss_popularity.str(), BLACK, 20);
-        statY += 40;
-
-        std::ostringstream oss_sell_rate;
-        oss_sell_rate << "Sell rate: " << factory.wallet.sell_rate; // Example: your budget as "liquidity"
-        drawString(cardX + 20, statY, oss_sell_rate.str(), BLACK, 20);
-        statY += 40;
-
-
-        // Display budget
-        std::ostringstream oss_budget;
-        oss_budget << "Budget: $" << factory.wallet.budget;
-        drawString(20, 60, oss_budget.str(), BLACK, 20);
-
-        // Display car inventory
-        std::ostringstream oss_car_inventory;
-        oss_car_inventory << "Car Inventory: " << factory.car_inventory << " Cars";
-        drawString(20, 100, oss_car_inventory.str(), BLACK, 20);
-
-        // Display sell price of cars
-        std::ostringstream oss_sell_price;
-        oss_sell_price << "Sell Price: $" << factory.wallet.sell_price;
-        drawString(20, 440, oss_sell_price.str(), BLACK, 20);
-
-        // Display materials inventory
-        int y_offset = 140;
-        for (const auto &item : factory.inventory) {
-            std::ostringstream oss_inventory;
-            oss_inventory << item.first
-                          << ": " << item.second.first
-                          << " USD, Quantity: " << item.second.second;
-            drawString(20, y_offset, oss_inventory.str(), BLACK, 20);
-            y_offset += 40;
-        }
-
-        // Draw price modification buttons
-
-        int price_up_buttonX = 300;
-        int price_up_buttonY = 380;
-        int price_up_buttonW = 100;
-        int price_up_buttonH = 30;
-        fillRect(price_up_buttonX, price_up_buttonY, price_up_buttonW, price_up_buttonH, BLACK);
-        drawString(price_up_buttonX + price_up_buttonW/2 - 20, price_up_buttonY + price_up_buttonH/2 + 5, "raise", WHITE, 20);
-
-        int price_down_buttonX = 200;
-        int price_down_buttonY = 380;
-        int price_down_buttonW = 100;
-        int price_down_buttonH = 30;
-        fillRect(price_down_buttonX, price_down_buttonY, price_down_buttonW, price_down_buttonH, BLACK);
-        drawString(price_down_buttonX + price_down_buttonW/2 - 25, price_down_buttonY + price_down_buttonH/2 + 5, "lower", WHITE, 20);
-
-
-        // Draw buy material buttons
-        int buttonX = 300;
-        int buttonY_start = 75;
-        int buttonW = 150;
-        int buttonH = 30;
-        int gap = 40;
-
-        const std::string labels[5] = {
-            "Buy electronics", "Buy engine", "Buy frame", "Buy glass", "Buy wheel"
-        };
-
         const std::string components[5] = {
             "electronics", "engine", "frame", "glass", "wheel"
         };
 
-        for (int i = 0; i < 5; i++) {
-            int by = buttonY_start + i * gap;
-            if (factory.wallet.budget >= factory.inventory[components[i]].first) {
-                fillRect(buttonX, by, buttonW, buttonH, GREEN); // Enough money
-            } else {
-                fillRect(buttonX, by, buttonW, buttonH, RED); // Not enough money
-            }
-        }
+        // #############################################################################################
+        // ######################################### ESTHETICS #########################################
+        // #############################################################################################
 
-        // Draw buy material labels
-        drawString(310, 100, "Buy electronics", WHITE, 20);
-        drawString(330, 140, "Buy engine", WHITE, 20);
-        drawString(330, 180, "Buy frame", WHITE, 20);
-        drawString(330, 220, "Buy glass", WHITE, 20);
-        drawString(330, 260, "Buy wheel", WHITE, 20);
+        // -------------- Background ----------------
 
-        // Draw Build Car button
-        int buildButtonX = 470;
-        int buildButtonY = 145;
-        int buildButtonW = 200;
-        int buildButtonH = 50;
-        fillRect(buildButtonX, buildButtonY, buildButtonW, buildButtonH, BLUE);
+        fillRect(0, 0, 1400, 800, Color(232, 237, 223)); // Background
+
+        // -------------- Header ----------------
+
+        fillRect(0, 0, 1400, 50, Color(51, 53, 51)); // Header
+        drawString(50, 35, "IDLE CAR FACTORY", Color(245, 203, 92), 30);
+
+        // -------------- Manufacture ----------------
+
+        fillRect(50, 100, 500, 400, Color(255, 255, 255));
+        drawString(234, 85, "MANUFACTURE", BLACK, 20);
+
+        std::ostringstream oss_car_inventory;
+        oss_car_inventory << "Unsold Inventory: " << factory.car_inventory << " Cars";
+        drawString(85, 140, oss_car_inventory.str(), BLACK, 23);
+
+        // Build Car
+        int buildButtonX = 100;
+        int buildButtonY = 160;
+        int buildButtonW = 175;
+        int buildButtonH = 40;
+        fillRect(buildButtonX, buildButtonY, buildButtonW, buildButtonH, Color(207,219,213));
         drawString(buildButtonX + 50, buildButtonY + 30, "Build Car", WHITE, 20);
 
 
-        // Draw Build Car button
+        // Buy and Build Car
+        int buyandbuildButtonX = 325;
+        int buyandbuildButtonY = 160;
+        int buyandbuildButtonW = 175;
+        int buyandbuildButtonH = 40;
+        fillRect(buyandbuildButtonX, buyandbuildButtonY, buyandbuildButtonW, buyandbuildButtonH, Color(207,219,213));
+        drawString(buyandbuildButtonX + 50, buyandbuildButtonY + 30, "Buy & Build", WHITE, 20);
+
+        //Build Max Cars button
         int buildmaxButtonX = 470;
         int buildmaxButtonY = 100;
         int buildmaxButtonW = 200;
@@ -151,24 +80,129 @@ int main()
         fillRect(buildmaxButtonX, buildmaxButtonY, buildmaxButtonW, buildmaxButtonH, BLUE);
         drawString(buildmaxButtonX + 50, buildmaxButtonY + 30, "Build Max Cars", WHITE, 20);
 
-        // Draw Buy and Build car button
-        int buyandbuildButtonX = 470;
-        int buyandbuildButtonY = 50;
-        int buyandbuildButtonW = 200;
-        int buyandbuildButtonH = 50;
-        fillRect(buyandbuildButtonX, buyandbuildButtonY, buyandbuildButtonW, buyandbuildButtonH, BLUE);
-        drawString(buyandbuildButtonX + 50, buyandbuildButtonY + 30, "Buy & Build Car", WHITE, 20);
+
+        // Materials display
+        int y_offset = 250;
+        for (const auto &item : factory.inventory) {
+            std::ostringstream oss_inventory;
+            oss_inventory << item.first
+                          << ": " << item.second.first
+                          << " USD, Quantity: " << item.second.second;
+            drawString(70, y_offset, oss_inventory.str(), BLACK, 20);
+            y_offset += 60;
+        }
+
+        // Buy material buttons
+        int buy1buttonX = 420;
+        int buy1buttonY_start = 223;
+        int buy1buttonW = 90;
+        int buy1buttonH = 30;
+        int gap = 60;
+
+        for (int i = 0; i < 5; i++) {
+            int by = buy1buttonY_start + i * gap;
+
+            // Button background
+            if (factory.wallet.budget >= factory.inventory[components[i]].first) {
+                fillRect(buy1buttonX, by, buy1buttonW, buy1buttonH, GREEN); // Enough money
+            } else {
+                fillRect(buy1buttonX, by, buy1buttonW, buy1buttonH, RED); // Not enough money
+            }
+            drawString(buy1buttonX + 15, by + 22, "Buy x1", BLACK, 20);
+        }
 
 
-        // -------------- FUNCTIONNAL --------------
+
+        // -------------- Budget box and graph ----------------
+
+        fillRect(600, 100, 300, 300, Color(255, 255, 255));
+        drawString(720, 85, "FUNDS", BLACK, 20);
+
+
+        // -------------- Boosters ----------------
+
+        fillRect(600, 450, 300, 450, Color(255, 255, 255));
+        drawString(702, 435, "BOOSTERS", BLACK, 20);
+
+
+        // -------------- Market Overview ----------------
+
+        fillRect(950, 100, 400, 400, Color(36, 36, 35));
+        for (int i = 1; i <= 5; i++) {
+            int y = 100 + i * (400 / 6);
+            drawLine(970, y, 1330, y, WHITE);
+        }
+        drawString(1060, 85,"MARKET OVERVIEW", BLACK, 20);
+
+        int marketstartY = 138;
+        int marketX = 970;
+
+        std::ostringstream oss_budget;
+        oss_budget << "Funds ($):            " << factory.wallet.budget;
+        drawString(marketX, marketstartY, oss_budget.str(), WHITE, 20);
+        marketstartY += 66;
+
+        std::ostringstream oss_popularity;
+        oss_popularity << "Popularity:            " << factory.wallet.popularity;
+        drawString(marketX, marketstartY, oss_popularity.str(), WHITE, 20);
+        marketstartY += 66;
+
+        std::ostringstream oss_sell_rate;
+        oss_sell_rate << "Sell rate:            " << factory.wallet.sell_rate;
+        drawString(marketX, marketstartY, oss_sell_rate.str(), WHITE, 20);
+        marketstartY += 66;
+
+        drawString(marketX, marketstartY, "Total volume sold :            ", WHITE, 20);
+        marketstartY += 66;
+
+        drawString(marketX, marketstartY, "Earned/sec :            ", WHITE, 20);
+        marketstartY += 66;
+
+        drawString(marketX, marketstartY, "Cars/sec :            ", WHITE, 20);
+
+
+        // Sell Rate Graph
+        fillRect(950, 550, 400, 230, Color(255, 255, 255));
+
+
+        // -------------- Setting sell price ----------------
+
+        // Display sell price
+
+        std::ostringstream oss_sell_price;
+        oss_sell_price << "Sell Price ($): " << factory.wallet.sell_price;
+        drawString(950, 530, oss_sell_price.str(), BLACK, 20);
+
+        // +/- buttons
+
+        int price_up_buttonW = 40;
+        int price_up_buttonH = 30;
+        int price_up_buttonY = 507;
+        int price_up_buttonX = 1270;
+
+        int price_down_buttonX = 1215;
+        int price_down_buttonY = price_up_buttonY;
+        int price_down_buttonW = price_up_buttonW;
+        int price_down_buttonH = price_up_buttonH;
+
+        fillRect(price_down_buttonX, price_down_buttonY, price_down_buttonW, price_down_buttonH, RED);
+        drawString(price_down_buttonX + price_down_buttonW / 2 - 6, price_down_buttonY + price_down_buttonH / 2 + 7, "-", WHITE, 22); // Larger font
+
+        fillRect(price_up_buttonX, price_up_buttonY, price_up_buttonW, price_up_buttonH, GREEN);
+        drawString(price_up_buttonX + price_up_buttonW / 2 - 6, price_up_buttonY + price_up_buttonH / 2 + 7, "+", WHITE, 22); // Larger font
+
+
+        // #############################################################################################
+        // ######################################### FUNCTIONAL ########################################
+        // #############################################################################################
 
         int x, y;
         if (getMouse(x, y)) {
             // Material purchase
             for (int i = 0; i < 5; i++) {
-                int bx = buttonX;
-                int by = buttonY_start + i * gap;
-                if (x >= bx && x <= bx + buttonW && y >= by && y <= by + buttonH) {
+                int bx = buy1buttonX;
+                int by = buy1buttonY_start + i * gap;
+                if (x >= bx && x <= bx + buy1buttonW && y >= by && y <= by + buy1buttonH) {
                     factory.buy(components[i]);
                 }
             }

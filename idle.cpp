@@ -18,7 +18,7 @@ int main()
 
     Factory factory;
     openWindow(1400, 800, "Imagine++ Window");
-
+    factory.wallet.update_popularity();
     while (true) {
         clearWindow(); // Clear previous frame
 
@@ -27,7 +27,7 @@ int main()
         float delta_time = elapsed.count(); // secondes
         lastTime = currentTime;
 
-        factory.wallet.update_popularity();
+
         factory.wallet.update_sell_rate();
 
         const std::string components[5] = {"electronics", "engine", "frame", "glass", "wheel"};
@@ -173,11 +173,13 @@ int main()
         drawString(marketX, marketstartY,oss_total_volume_built.str(), WHITE, 20);
         marketstartY += 66;
 
+        //TO DO A WORKING ONE
         std::ostringstream oss_earning_rate;
         oss_earning_rate << "Earned/sec :            " << factory.wallet.earning_rate;
         drawString(marketX, marketstartY,oss_earning_rate.str(), WHITE, 20);
         marketstartY += 66;
 
+        //TO DO A WORKING ONE
         std::ostringstream oss_cars_sold_per_sec;
         oss_cars_sold_per_sec << "Cars sold/sec :            "<<factory.wallet.cars_sold_per_sec;
         drawString(marketX, marketstartY, oss_cars_sold_per_sec.str(), WHITE, 20);

@@ -15,6 +15,7 @@ void Wallet::reset_market()
     cars_sold_buffer = 0;
     earning_buffer = 0;
     earning_rate = 0;
+    update_popularity();
     std::cout << "Resetting market values" << std::endl;
 }
 
@@ -37,6 +38,5 @@ void Wallet::update_popularity()
 
 void Wallet::update_sell_rate()
 {
-    update_popularity();
     sell_rate = popularity / sell_price;
 }

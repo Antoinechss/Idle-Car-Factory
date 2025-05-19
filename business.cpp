@@ -13,7 +13,8 @@ void Wallet::reset_market()
     sell_price = 0;
     popularity = 0;
     cars_sold_buffer = 0;
-
+    earning_buffer = 0;
+    earning_rate = 0;
     std::cout << "Resetting market values" << std::endl;
 }
 
@@ -29,15 +30,13 @@ void Wallet::set_sell_price(double price)
     sell_price = price;
 }
 
-
-void Wallet::update_popularity(){
+void Wallet::update_popularity()
+{
     popularity = rand() % 101;
 }
 
 void Wallet::update_sell_rate()
 {
-    /*
-    Define sell rate as a function of price 
-    */
+    update_popularity();
     sell_rate = popularity / sell_price;
 }

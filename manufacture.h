@@ -16,7 +16,9 @@ public:
     // Initializing components price and stock
 
     int car_inventory; // number of cars available for sale
-
+    int total_volume_built;
+    int car_built_per_sec;
+    float car_build_price;
     // Constructor
     Factory();
 
@@ -26,4 +28,6 @@ public:
     void sell_car();
     bool can_build_car();
     void buy_and_build_car();
+    void update_build_price();
+    bool can_buy_car();
 };

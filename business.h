@@ -1,9 +1,7 @@
 #pragma once
-#include <iostream>
 #include <cstdlib>
 #include <ctime>
-
-
+#include <iostream>
 
 class Wallet
 {
@@ -13,7 +11,9 @@ public:
     double sell_price;
     double popularity;
     double cars_sold_buffer;
-
+    double cars_sold_per_sec;
+    double earning_buffer;
+    double earning_rate;
     Wallet();
 
     void reset_market();

@@ -1,5 +1,6 @@
 #include "business.h"
-
+#include <Imagine/Graphics.h>
+using namespace Imagine;
 Wallet::Wallet()
 {
     reset_wallet();
@@ -39,4 +40,27 @@ void Wallet::update_popularity()
 void Wallet::update_sell_rate()
 {
     sell_rate = popularity / sell_price;
+}
+
+void Wallet::drawBudgetGraph(const std::vector<int>& history, int graphX, int graphY, int graphW, int graphH) {
+    // Clear graph area
+    fillRect(graphX, graphY, graphW, graphH, Color(255, 255, 255));
+    drawRect(graphX, graphY, graphW, graphH, BLACK); // Optional border
+
+    int n = history.size();
+    if (n < 2) return;
+
+    for (int i = 1; i < n; ++i) {
+        int x1 = graphX + (i - 1) * graphW / (n - 1);
+        int y1 = graphY + graphH - (history[i - 1] * graphH / 10000);
+        int x2 = graphX + i * graphW / (n - 1);
+        int y2 = graphY + graphH - (history[i] * graphH / 10000);
+
+        drawLine(x1, y1, x2, y2, BLUE);
+
+        for (int i = 1; i <= 4; i++) {
+            int y = graphY + i * graphH / 5;
+            drawLine(graphX, y, graphX + graphW, y, Color(200, 200, 200));
+        }
+    }
 }

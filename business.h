@@ -22,4 +22,5 @@ public:
     void set_sell_price(double price);
     void update_sell_rate();
     void update_popularity();
+    void drawBudgetGraph(const std::vector<int>& history, int graphX, int graphY, int graphW, int graphH);
 };

@@ -11,20 +11,25 @@ int main()
 {
     endGraphics();
     srand(100);
-    auto startTime = std::chrono::high_resolution_clock::now();
     auto lastTime = std::chrono::high_resolution_clock::now();
     std::cout << "Welcome to the Car Factory Idle Game!" << std::endl;
     std::cout << "Start building now" << std::endl;
 
+    std::vector<int> budgetHistory; // To store the evolving budget
+
     Factory factory;
     openWindow(1400, 800, "Imagine++ Window");
+
+    auto gameStartTime = std::chrono::high_resolution_clock::now();
+
+
     factory.wallet.update_popularity();
     while (true) {
         clearWindow(); // Clear previous frame
 
         auto currentTime = std::chrono::high_resolution_clock::now();
-        std::chrono::duration<float> elapsed = currentTime - lastTime;
-        float delta_time = elapsed.count(); // secondes
+        std::chrono::duration<float> elapsed = currentTime - gameStartTime;
+        float delta_time = elapsed.count(); // Elapsed time in seconds
         lastTime = currentTime;
 
 
@@ -42,8 +47,29 @@ int main()
 
         // -------------- Header ----------------
 
+        // -------------- Header ----------------
+
         fillRect(0, 0, 1400, 50, Color(51, 53, 51)); // Header
         drawString(50, 35, "IDLE CAR FACTORY", Color(245, 203, 92), 30);
+        int minutes = static_cast<int>(delta_time) / 60;
+        int seconds = static_cast<int>(delta_time) % 60;
+
+        std::ostringstream oss_elapsed;
+        oss_elapsed << "Game duration :     "
+                    << std::setw(2) << std::setfill('0') << minutes
+                    << ":"
+                    << std::setw(2) << std::setfill('0') << seconds;
+
+        drawString(500, 35, oss_elapsed.str(), WHITE, 30);
+
+        int resetButtonW = 100;
+        int resetButtonH = 40;
+        int resetButtonX = 1400 - resetButtonW - 50;
+        int resetButtonY = 5;
+
+        fillRect(resetButtonX, resetButtonY, resetButtonW, resetButtonH, Color(245, 203, 92));
+        drawString(resetButtonX + 22, resetButtonY + 27, "RESET", WHITE, 20);
+
 
         // -------------- Manufacture ----------------
 
@@ -133,9 +159,13 @@ int main()
 
         // -------------- Budget box and graph ----------------
 
+        int graphX = 650;
+        int graphY = 120;
+        int graphW = 220;
+        int graphH = 150;
+
         fillRect(600, 100, 300, 300, Color(255, 255, 255));
         drawString(720, 85, "FUNDS", BLACK, 20);
-
         // -------------- Boosters ----------------
 
         fillRect(600, 450, 300, 450, Color(255, 255, 255));
@@ -221,28 +251,28 @@ int main()
                    WHITE,
                    22); // Larger font
 
-        // Display time
-        std::chrono::duration<double> total_elapsed = currentTime - startTime;
-        std::ostringstream oss_elapsed_time;
-        oss_elapsed_time << "Time Elapsed: " << std::fixed << std::setprecision(2) << total_elapsed.count() << " s";
-        drawString(900, 35, oss_elapsed_time.str(), WHITE, 20);
-
-        // Reset All button
-        int resetButtonX = 1200;
-        int resetButtonY = 5;
-        int resetButtonW = 150;
-        int resetButtonH = 40;
-        fillRect(resetButtonX, resetButtonY, resetButtonW, resetButtonH, RED);
-        drawString(resetButtonX + resetButtonH - 10, resetButtonY + 30, "Reset All", WHITE, 20);
-
         // #############################################################################################
         // ######################################### FUNCTIONAL ########################################
         // #############################################################################################
 
+        // Displaying budget evolution in graph
+
+        budgetHistory.push_back(factory.wallet.budget);
+        if (budgetHistory.size() > 50) // Optional: limit graph length
+            budgetHistory.erase(budgetHistory.begin());
+
+        factory.wallet.drawBudgetGraph(budgetHistory, graphX, graphY, graphW, graphH);
 
         int x, y;
 
         if (getMouse(x, y)) {
+            //Reset Button
+            if (x >= resetButtonX && x <= resetButtonX + resetButtonW && y >= resetButtonY && y <= resetButtonY + resetButtonH) {
+                factory.wallet.reset_wallet();
+                factory.wallet.reset_market();
+                factory.reset_factory();
+            }
+
             // Material purchase
             for (int i = 0; i < 5; i++) {
                 int bx = buy1buttonX;
@@ -298,11 +328,7 @@ int main()
         }
         factory.wallet.earning_rate = factory.wallet.earning_buffer * delta_time;
 
-        // Game RESET
-        if (x >= resetButtonX && x <= resetButtonX + resetButtonW && y >= resetButtonY && y <= resetButtonY + resetButtonH) {
-            factory.reset_factory();
-            startTime = std::chrono::high_resolution_clock::now(); // Réinitialiser le temps de début
-        }
+
 
         milliSleep(50);
     }

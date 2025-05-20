@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-set(CMAKE_OSX_ARCHITECTURES x86_64) #Apple Silicon
+set(CMAKE_OSX_ARCHITECTURES "x86_64" CACHE STRING "" FORCE)
 project(CarFactory)
 list(APPEND CMAKE_FRAMEWORK_PATH /Library/Frameworks)
 set(CMAKE_CXX_STANDARD 11)

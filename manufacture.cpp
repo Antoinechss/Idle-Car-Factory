@@ -9,7 +9,7 @@ Factory::Factory()
     inventory["electronics"] = {10.0, 0};
     inventory["frame"] = {500.0, 0};
     car_inventory = 0;
-    total_volume_built =0;
+    total_volume_built = 0;
     car_build_price = 4 * inventory["wheel"].first + inventory["electronics"].first
                       + 6 * inventory["glass"].first + inventory["frame"].first
                       + inventory["engine"].first;
@@ -24,7 +24,7 @@ void Factory::reset_factory()
     inventory["electronics"] = {10.0, 0};
     inventory["frame"] = {500.0, 0};
     car_inventory = 0;
-    total_volume_built =0;
+    total_volume_built = 0;
     car_build_price = 4 * inventory["wheel"].first + inventory["electronics"].first
                       + 6 * inventory["glass"].first + inventory["frame"].first
                       + inventory["engine"].first;
@@ -66,7 +66,7 @@ bool Factory::can_buy_car()
 {
     // checking for available budget
     update_build_price();
-    return(wallet.budget >= car_build_price);
+    return (wallet.budget >= car_build_price);
 }
 void Factory::build_car()
 {
@@ -81,7 +81,7 @@ void Factory::build_car()
         inventory["frame"].second -= 1;
         inventory["engine"].second -= 1;
         car_inventory += 1;
-        total_volume_built +=1;
+        total_volume_built += 1;
         std::cout << "Car built!" << std::endl;
     } else {
         std::cout << "Insufficient inventory" << std::endl;
@@ -96,7 +96,7 @@ void Factory::buy_and_build_car()
     // checking for available budget
     if (can_buy_car()) {
         car_inventory += 1;
-        total_volume_built +=1;
+        total_volume_built += 1;
         wallet.budget -= car_build_price;
         std::cout << "Car built!" << std::endl;
     } else {

@@ -10,5 +10,6 @@ add_executable(CarFactory
                idle.cpp
                business.cpp business.h
                manufacture.cpp manufacture.h
-               utils.h utils.cpp)
+               utils.h utils.cpp
+               graphics.h graphics.cpp)
 target_link_libraries(CarFactory Imagine::Graphics)

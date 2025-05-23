@@ -6,7 +6,48 @@ using namespace Imagine;
 // ######################################### ESTHETICS #########################################
 // #############################################################################################
 
+int buttonSpacing = 20; // espace vertical entre chaque booster
+int buttonStartX = buildmaxButtonX;
+int buttonStartY = buildmaxButtonY;
+
+void Display_buildmaxcar_booster(){
+    int y = buttonStartY + 0 * buttonSpacing;
+    fillRect(buttonStartX, y, buildmaxButtonW, buildmaxButtonH, BLUE);
+    drawString(buttonStartX + 20, y + 30, "Buy and build max (m)", WHITE, 20);
+}
+
+void Display_buymoreqty_booster(){
+    int y = buttonStartY + 1 * buttonSpacing;
+    fillRect(buttonStartX, y, buildmaxButtonW, buildmaxButtonH, BLUE);
+    drawString(buttonStartX + 20, y + 30, "Buy x4 components (f)", WHITE, 20);
+}
+
+void Display_maxmarketing_booster(){
+    int y = buttonStartY + 2 * buttonSpacing;
+    fillRect(buttonStartX, y, buildmaxButtonW, buildmaxButtonH, BLUE);
+    drawString(buttonStartX + 20, y + 30, "Marketing (k)", WHITE, 20);
+}
+
+void Display_autobuild_active_booster(){
+    int y = buttonStartY + 3 * buttonSpacing;
+    fillRect(buttonStartX, y, buildmaxButtonW, buildmaxButtonH, GREEN);
+    drawString(buttonStartX + 20, y + 30, "Auto build (o)", WHITE, 20);
+    y = buttonStartY + 4 * buttonSpacing - 10;
+    fillRect(buttonStartX, y, buildmaxButtonW, buildmaxButtonH, BLUE);
+    drawString(buttonStartX + 20, y + 30, "Upgrade (u)", WHITE, 20);
+}
+
+void Display_autobuild_inactive_booster(){
+    int y = buttonStartY + 3 * buttonSpacing;
+    fillRect(buttonStartX, y, buildmaxButtonW, buildmaxButtonH, GREY);
+    drawString(buttonStartX + 20, y + 30, "Auto build (o)", WHITE, 20);
+    y = buttonStartY + 4 * buttonSpacing - 10;
+    fillRect(buttonStartX, y, buildmaxButtonW, buildmaxButtonH, BLUE);
+    drawString(buttonStartX + 20, y + 30, "Upgrade (u)", WHITE, 20);
+}
+
 void Display_background(){
+
     // -------------- Background ----------------
 
     fillRect(0, 0, 1400, 800, Color(232, 237, 223)); // Background
@@ -36,10 +77,6 @@ void Display_background(){
 
     fillRect(600, 450, 300, 450, Color(255, 255, 255));
     drawString(702, 435, "BOOSTERS", BLACK, 20);
-
-    //Build Max Cars button
-    fillRect(buildmaxButtonX, buildmaxButtonY, buildmaxButtonW, buildmaxButtonH, BLUE);
-    drawString(buildmaxButtonX + 20, buildmaxButtonY + 30, "Buy and build max (m)", WHITE, 20);
 
     // -------------- Market Overview ----------------
 

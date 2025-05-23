@@ -24,6 +24,10 @@ int main()
 
     auto gameStartTime = std::chrono::high_resolution_clock::now();
 
+    bool auto_build_active = false;
+    auto last_autobuild_time = std::chrono::high_resolution_clock::now();
+
+
     int rounds_count = 0;
     int gap_round = 1000000;
     double max_funds = factory.wallet.budget;
@@ -69,7 +73,7 @@ int main()
             fillRect(buildButtonX, buildButtonY, buildButtonW, buildButtonH, RED);
         }
 
-        drawString(buildButtonX + 50, buildButtonY + 30, "Build Car", WHITE, 20);
+        drawString(buildButtonX + 50, buildButtonY + 30, "Build Car (b)", WHITE, 20);
 
         // Buy and Build Car
 
@@ -86,7 +90,7 @@ int main()
                      buyandbuildButtonH,
                      RED);
         }
-        drawString(buyandbuildButtonX + 50, buyandbuildButtonY + 30, "Buy & Build", WHITE, 20);
+        drawString(buyandbuildButtonX + 50, buyandbuildButtonY + 30, "Buy & Build (Space)", WHITE, 20);
 
         // Materials display
         int y_offset = 300;
@@ -160,7 +164,27 @@ int main()
 
         // -------------- Boosters ----------------
 
-        //Build Max Cars button
+        //Build Max Cars button - when tot volume built > 50
+
+        if (factory.total_volume_built > 50){
+            Display_buildmaxcar_booster();
+        }
+
+        if (factory.total_volume_built > 100){
+            Display_buymoreqty_booster();
+        }
+
+        if (factory.total_volume_built > 200){
+            Display_maxmarketing_booster();
+        }
+
+        if (factory.total_volume_built > 300 && auto_build_active == false){
+            Display_autobuild_inactive_booster();
+        }
+
+        if (factory.total_volume_built > 300 && auto_build_active == true){
+            Display_autobuild_active_booster();
+        }
 
         // -------------- Market Overview ----------------
 
@@ -253,19 +277,10 @@ int main()
         if (key == int('t')) {
             factory.buy(components[i]);
         }
-        i+=1;
 
         // Build Car
         if (key == int('b')) {
             factory.build_car();
-        }
-
-        // Buy and Build max Cars possible
-        if (key == int('m')) {
-            while (factory.can_buy_car()) {
-                factory.buy_and_build_car();
-            }
-            std::cout << "tried to buy and build max" << std::endl;
         }
 
         // Buy and build
@@ -295,6 +310,33 @@ int main()
         }
         factory.wallet.earning_rate = factory.wallet.sell_rate * factory.wallet.sell_price;
 
+        // --------- Boosters -------- Functionnal
+
+        if (key == int('m')) {
+            while (factory.can_buy_car()) {
+                factory.buy_and_build_car();
+            }
+            std::cout << "tried to buy and build max" << std::endl;
+        }
+
+        if (key == int('f')) {
+            // build several components of each manufacture
+        }
+
+        if (key == int('o')) {
+            auto_build_active = !auto_build_active;
+        }
+
+        if (key == int('u')) {
+            // add 0.1 car per second
+            // price = 10.000
+        }
+
+        if (key == int('k')) {
+            // set popularity to 100 for 30 secs
+        }
+
+
         // Close game
         if (key == Escape){
             break;
@@ -302,7 +344,23 @@ int main()
         if (factory.wallet.budget > max_funds){
             max_funds = factory.wallet.budget;
         }
+
+
+        // Running auto build fonction
+        if (auto_build_active) {
+            auto now = std::chrono::high_resolution_clock::now();
+            std::chrono::duration<float> elapsed_autobuild = now - last_autobuild_time;
+
+            if (elapsed_autobuild.count() >= 5.0f) {
+                if (factory.can_build_car()) {
+                    factory.build_car();
+                }
+                last_autobuild_time = now;
+            }
+        }
+
         milliSleep(50);
+
     }
 
     return 0;

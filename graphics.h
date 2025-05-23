@@ -1,6 +1,11 @@
 #pragma once
 
 void Display_background();
+void Display_buildmaxcar_booster();
+void Display_buymoreqty_booster();
+void Display_maxmarketing_booster();
+void Display_autobuild_inactive_booster();
+void Display_autobuild_active_booster();
 
 // -------------- Header ----------------
 

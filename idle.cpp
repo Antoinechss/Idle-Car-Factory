@@ -2,6 +2,7 @@
 #include "utils.h"
 #include "graphics.h"
 #include <Imagine/Graphics.h>
+
 using namespace Imagine;
 
 #include <chrono>
@@ -9,30 +10,33 @@ using namespace Imagine;
 #include <iostream>
 #include <sstream>
 #include <string>
+
 int main()
 {
     endGraphics();
     srand(100);
     auto lastTime = std::chrono::high_resolution_clock::now();
 
-    std::vector<int> budgetHistory; // Storing evolving budget
-
     Factory factory;
     openWindow(1400, 800, "Imagine++ Window");
 
     auto gameStartTime = std::chrono::high_resolution_clock::now();
 
-    bool auto_build_active = false;
+    bool auto_build_active = false; // disengaging auto build at initialization
     auto last_autobuild_time = std::chrono::high_resolution_clock::now();
 
-
+    std::vector<int> budgetHistory; // Storing evolving budget
     int rounds_count = 0;
     int gap_round = 1000000;
     double max_funds = factory.wallet.budget;
 
+    const std::string components[5] = {"electronics", "engine", "frame", "glass", "wheel"};
+
     while (true) {
 
         clearWindow(); // Clear previous frame
+
+        // Dealing with time initialization and tracking :
 
         auto currentTime = std::chrono::high_resolution_clock::now();
         std::chrono::duration<float> elapsed = currentTime - gameStartTime;
@@ -40,11 +44,8 @@ int main()
         lastTime = currentTime;
 
         factory.wallet.update_sell_rate();
-        const std::string components[5] = {"electronics", "engine", "frame", "glass", "wheel"};
 
         Display_background();
-
-
 
 
         // -------------- CARS : ----------------
@@ -290,39 +291,22 @@ int main()
 
         // -------------- BOOSTERS : ----------------
 
+        // Buy and build max cars
         if (key == int('m')) {
             while (factory.can_buy_car()) {
                 factory.buy_and_build_car();
             }
-            std::cout << "tried to buy and build max" << std::endl;
         }
 
+        // buy four pieces of each component
         if (key == int('f')) {
-            // build several components of each manufacture
+            // TODO
         }
 
+        // Engage / disengage autobuild
         if (key == int('o')) {
             auto_build_active = !auto_build_active;
         }
-
-        if (key == int('u')) {
-            // add 0.1 car per second
-            // price = 10.000
-        }
-
-        if (key == int('k')) {
-            // set popularity to 100 for 30 secs
-        }
-
-
-        // Close game
-        if (key == Escape){
-            break;
-        }
-        if (factory.wallet.budget > max_funds){
-            max_funds = factory.wallet.budget;
-        }
-
 
         // Running auto build fonction
         if (auto_build_active) {
@@ -336,6 +320,29 @@ int main()
                 last_autobuild_time = now;
             }
         }
+
+        // Upgrade autobuild
+        if (key == int('u')) {
+            // add 0.1 car per second
+            // price = 10.000
+            // TODO
+        }
+
+        // Max Marketing
+        if (key == int('k')) {
+            // set popularity to 100 for 30 secs
+            // TODO
+        }
+
+
+        // -------------- CLOSE GAME : ----------------
+        if (key == Escape){
+            break;
+        }
+        if (factory.wallet.budget > max_funds){
+            max_funds = factory.wallet.budget;
+        }
+
 
         milliSleep(50);
 

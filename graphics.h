@@ -9,7 +9,6 @@ void Display_autobuild_active_booster();
 
 // -------------- Header ----------------
 
-
 const int resetButtonW = 100;
 const int resetButtonH = 40;
 const int resetButtonX = 1400 - resetButtonW - 50;
@@ -48,7 +47,6 @@ const int graphX = 630;
 const int graphY = 120;
 const int graphW = 260;
 const int graphH = 150;
-
 
 
 // +/- buttons

@@ -14,10 +14,8 @@ int main()
     endGraphics();
     srand(100);
     auto lastTime = std::chrono::high_resolution_clock::now();
-    std::cout << "Welcome to the Car Factory Idle Game!" << std::endl;
-    std::cout << "Start building now" << std::endl;
 
-    std::vector<int> budgetHistory; // To store the evolving budget
+    std::vector<int> budgetHistory; // Storing evolving budget
 
     Factory factory;
     openWindow(1400, 800, "Imagine++ Window");
@@ -33,6 +31,7 @@ int main()
     double max_funds = factory.wallet.budget;
 
     while (true) {
+
         clearWindow(); // Clear previous frame
 
         auto currentTime = std::chrono::high_resolution_clock::now();
@@ -41,27 +40,16 @@ int main()
         lastTime = currentTime;
 
         factory.wallet.update_sell_rate();
-
-
         const std::string components[5] = {"electronics", "engine", "frame", "glass", "wheel"};
 
-        // #############################################################################################
-        // ######################################### ESTHETICS #########################################
-        // #############################################################################################
-
         Display_background();
-        // -------------- Background ----------------
-        // -------------- Header ----------------
-        int minutes = static_cast<int>(delta_time) / 60;
-        int seconds = static_cast<int>(delta_time) % 60;
 
-        std::ostringstream oss_elapsed;
-        oss_elapsed << "Game duration :     " << std::setw(2) << std::setfill('0') << minutes << ":"
-                    << std::setw(2) << std::setfill('0') << seconds;
 
-        // -------------- Manufacture ----------------
 
-        //car inventory
+
+        // -------------- CARS : ----------------
+
+        // Unsold car inventory
         std::ostringstream oss_car_inventory;
         oss_car_inventory << "Unsold Inventory: " << factory.car_inventory << " Cars";
         drawString(85, 140, oss_car_inventory.str(), BLACK, 23);
@@ -72,17 +60,15 @@ int main()
         } else {
             fillRect(buildButtonX, buildButtonY, buildButtonW, buildButtonH, RED);
         }
-
-        drawString(buildButtonX + 50, buildButtonY + 30, "Build Car (b)", WHITE, 20);
+        drawString(buildButtonX + (buildButtonW - 130) / 2, buildButtonY + (buildButtonH + 20) / 2, "Build Car (b)", WHITE, 20);
 
         // Buy and Build Car
-
         if (factory.can_buy_car()) {
             fillRect(buyandbuildButtonX,
                      buyandbuildButtonY,
                      buyandbuildButtonW,
                      buyandbuildButtonH,
-                     GREEN); // Enough money
+                     GREEN);
         } else {
             fillRect(buyandbuildButtonX,
                      buyandbuildButtonY,
@@ -90,9 +76,12 @@ int main()
                      buyandbuildButtonH,
                      RED);
         }
-        drawString(buyandbuildButtonX + 50, buyandbuildButtonY + 30, "Buy & Build (Space)", WHITE, 20);
+        drawString(buyandbuildButtonX + (buyandbuildButtonW - 170) / 2, buyandbuildButtonY + (buyandbuildButtonH + 20) / 2, "Buy & Build (Space)", WHITE, 20);
 
-        // Materials display
+
+        // -------------- MATERIALS : ----------------
+
+        // Materials inventory and price
         int y_offset = 300;
         for (const auto &item : factory.inventory) {
             std::ostringstream oss_inventory;
@@ -105,66 +94,61 @@ int main()
         oss_buy_price << "Buy all price : " << factory.car_build_price;
         drawString(70, y_offset, oss_buy_price.str(), BLACK, 20);
 
-        // Buy material buttons
+        // Buy material
         int buy1buttonX = 400;
         int buy1buttonY_start = 280;
         int buy1buttonW = 115;
         int buy1buttonH = 30;
         int gap = 60;
-
         int by;
 
         int j = 0;
         by = buy1buttonY_start + j * gap;
         if (factory.wallet.budget >= factory.inventory[components[j]].first) {
-            fillRect(buy1buttonX, by, buy1buttonW, buy1buttonH, GREEN); // Enough money
+            fillRect(buy1buttonX, by, buy1buttonW, buy1buttonH, GREEN);
         } else {
-            fillRect(buy1buttonX, by, buy1buttonW, buy1buttonH, RED); // Not enough money
+            fillRect(buy1buttonX, by, buy1buttonW, buy1buttonH, RED);
         }
         drawString(buy1buttonX + 15, by + 22, "Buy x1 (a)", BLACK, 20);
         j+=1;
 
         by = buy1buttonY_start + j * gap;
         if (factory.wallet.budget >= factory.inventory[components[j]].first) {
-            fillRect(buy1buttonX, by, buy1buttonW, buy1buttonH, GREEN); // Enough money
+            fillRect(buy1buttonX, by, buy1buttonW, buy1buttonH, GREEN);
         } else {
-            fillRect(buy1buttonX, by, buy1buttonW, buy1buttonH, RED); // Not enough money
+            fillRect(buy1buttonX, by, buy1buttonW, buy1buttonH, RED);
         }
         drawString(buy1buttonX + 15, by + 22, "Buy x1 (z)", BLACK, 20);
         j+=1;
 
         by = buy1buttonY_start + j * gap;
         if (factory.wallet.budget >= factory.inventory[components[j]].first) {
-            fillRect(buy1buttonX, by, buy1buttonW, buy1buttonH, GREEN); // Enough money
+            fillRect(buy1buttonX, by, buy1buttonW, buy1buttonH, GREEN);
         } else {
-            fillRect(buy1buttonX, by, buy1buttonW, buy1buttonH, RED); // Not enough money
+            fillRect(buy1buttonX, by, buy1buttonW, buy1buttonH, RED);
         }
         drawString(buy1buttonX + 15, by + 22, "Buy x1 (e)", BLACK, 20);
         j+=1;
 
         by = buy1buttonY_start + j * gap;
         if (factory.wallet.budget >= factory.inventory[components[j]].first) {
-            fillRect(buy1buttonX, by, buy1buttonW, buy1buttonH, GREEN); // Enough money
+            fillRect(buy1buttonX, by, buy1buttonW, buy1buttonH, GREEN);
         } else {
-            fillRect(buy1buttonX, by, buy1buttonW, buy1buttonH, RED); // Not enough money
+            fillRect(buy1buttonX, by, buy1buttonW, buy1buttonH, RED);
         }
         drawString(buy1buttonX + 15, by + 22, "Buy x1 (r)", BLACK, 20);
         j+=1;
 
         by = buy1buttonY_start + j * gap;
         if (factory.wallet.budget >= factory.inventory[components[j]].first) {
-            fillRect(buy1buttonX, by, buy1buttonW, buy1buttonH, GREEN); // Enough money
+            fillRect(buy1buttonX, by, buy1buttonW, buy1buttonH, GREEN);
         } else {
-            fillRect(buy1buttonX, by, buy1buttonW, buy1buttonH, RED); // Not enough money
+            fillRect(buy1buttonX, by, buy1buttonW, buy1buttonH, RED);
         }
         drawString(buy1buttonX + 15, by + 22, "Buy x1 (t)", BLACK, 20);
 
 
-        // -------------- Budget box and graph ----------------
-
-        // -------------- Boosters ----------------
-
-        //Build Max Cars button - when tot volume built > 50
+        // -------------- BOOSTERS : ----------------
 
         if (factory.total_volume_built > 50){
             Display_buildmaxcar_booster();
@@ -181,12 +165,11 @@ int main()
         if (factory.total_volume_built > 300 && auto_build_active == false){
             Display_autobuild_inactive_booster();
         }
-
         if (factory.total_volume_built > 300 && auto_build_active == true){
             Display_autobuild_active_booster();
         }
 
-        // -------------- Market Overview ----------------
+        // -------------- MARKET OVERVIEW : ----------------
 
         int marketstartY = 138;
         int marketX = 970;
@@ -221,30 +204,23 @@ int main()
         oss_cars_sold_per_sec << "Retirer ça car égal a sell rate :            " << factory.wallet.cars_sold_per_sec;
         drawString(marketX, marketstartY, oss_cars_sold_per_sec.str(), WHITE, 20);
 
-        // Sell Rate Graph
-        fillRect(950, 550, 400, 230, Color(255, 255, 255));
-
-        // -------------- Setting sell price ----------------
-
-        // Display sell price
-
+        // Display sell price (+/- buttons implemented in graphics.cpp)
         std::ostringstream oss_sell_price;
         oss_sell_price << "Sell Price ($): " << factory.wallet.sell_price;
         drawString(950, 530, oss_sell_price.str(), BLACK, 20);
 
-        // +/- buttons
 
-        // #############################################################################################
-        // ######################################### FUNCTIONAL ########################################
-        // #############################################################################################
 
-        // Displaying budget evolution in graph
+        // --------------------------
+        // USER INTERACTION
+        // --------------------------
+
+        // -------------- BUDGET GRAPH : ----------------
 
         rounds_count ++;
         bool UPDATE_GRAPH = rounds_count % gap_round == 0;
-
         budgetHistory.push_back(factory.wallet.budget);
-        if (budgetHistory.size() > 50) // Optional: limit graph length
+        if (budgetHistory.size() > 50)
             budgetHistory.erase(budgetHistory.begin());
 
         factory.wallet.drawBudgetGraph(budgetHistory, graphX, graphY, graphW, graphH, max_funds);
@@ -256,7 +232,8 @@ int main()
             factory.reset_factory();
         }
 
-        // Material purchase
+        // -------------- MATERIALS PURCHASE : ----------------
+
         int i = 0;
         if (key == int('a')) {
             factory.buy(components[i]);
@@ -278,17 +255,17 @@ int main()
             factory.buy(components[i]);
         }
 
-        // Build Car
+        // -------------- CARS BUILD : ----------------
+
         if (key == int('b')) {
             factory.build_car();
         }
-
-        // Buy and build
         if (key == SPACE) {
             factory.buy_and_build_car();
         }
 
-        // Modify sell price
+        // -------------- MODIFY SELL PRICE : ----------------
+
         if (key == UP) {
             factory.wallet.set_sell_price(factory.wallet.sell_price + 100);
         } else if (key == DOWN && factory.wallet.sell_price > 100) {
@@ -310,7 +287,8 @@ int main()
         }
         factory.wallet.earning_rate = factory.wallet.sell_rate * factory.wallet.sell_price;
 
-        // --------- Boosters -------- Functionnal
+
+        // -------------- BOOSTERS : ----------------
 
         if (key == int('m')) {
             while (factory.can_buy_car()) {

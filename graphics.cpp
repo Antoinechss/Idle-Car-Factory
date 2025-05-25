@@ -39,9 +39,6 @@ void Display_background(){
     }
     drawString(1060, 85, "MARKET OVERVIEW", BLACK, 20);
 
-    // Sell Rate Graph
-    fillRect(950, 550, 400, 230, Color(255, 255, 255));
-
     // Setting sell price +/- buttons
     int price_up_buttonW = 40;
     int price_up_buttonH = 30;
@@ -69,46 +66,45 @@ void Display_background(){
 
 }
 
-// ------------- BOOSTERS DISPLAY FUNCTIONS -----------------
+// ------------- BOOSTERS -----------------
 
-int buttonSpacing = 40;
+int buttonSpacing = 60;
 int buttonStartX = buildmaxButtonX;
 int buttonStartY = buildmaxButtonY;
 
 void Display_buildmaxcar_booster(){
     int y = buttonStartY + 0 * buttonSpacing;
     fillRect(buttonStartX, y, buildmaxButtonW, buildmaxButtonH, BLUE);
-    drawString(buttonStartX + 20, y + 30, "Buy and build max (m)", WHITE, 20);
+    drawString(buttonStartX + 5, y + 30, "Buy and build max (m)", WHITE, 20);
 }
 
 void Display_buymoreqty_booster(){
     int y = buttonStartY + 1 * buttonSpacing;
     fillRect(buttonStartX, y, buildmaxButtonW, buildmaxButtonH, BLUE);
-    drawString(buttonStartX + 20, y + 30, "Buy x4 components (f)", WHITE, 20);
+    drawString(buttonStartX + 5, y + 30, "Buy x4 components (f)", WHITE, 20);
 }
 
 void Display_maxmarketing_booster(){
     int y = buttonStartY + 2 * buttonSpacing;
     fillRect(buttonStartX, y, buildmaxButtonW, buildmaxButtonH, BLUE);
-    drawString(buttonStartX + 20, y + 30, "Marketing (k)", WHITE, 20);
+    drawString(buttonStartX + 5, y + 30, "Marketing (k) - $1000", WHITE, 20);
 }
 
+// ------------- AUTO BUILD -----------------
+
 void Display_autobuild_active_booster(){
-    int y = buttonStartY + 3 * buttonSpacing;
-    fillRect(buttonStartX, y, buildmaxButtonW, buildmaxButtonH, GREEN);
-    drawString(buttonStartX + 20, y + 30, "Auto build (o)", WHITE, 20);
-    y = buttonStartY + 4 * buttonSpacing - 10;
-    fillRect(buttonStartX, y, buildmaxButtonW, buildmaxButtonH, BLUE);
-    drawString(buttonStartX + 20, y + 30, "Upgrade (u)", WHITE, 20);
+    fillRect(400, 600, 150, 50, GREEN);
+    drawString(400 + 20, 600 + 30, "Auto build (o)", WHITE, 20);
 }
 
 void Display_autobuild_inactive_booster(){
-    int y = buttonStartY + 3 * buttonSpacing;
-    fillRect(buttonStartX, y, buildmaxButtonW, buildmaxButtonH, WHITE);
-    drawString(buttonStartX + 20, y + 30, "Auto build (o)", WHITE, 20);
-    y = buttonStartY + 4 * buttonSpacing - 10;
-    fillRect(buttonStartX, y, buildmaxButtonW, buildmaxButtonH, BLUE);
-    drawString(buttonStartX + 20, y + 30, "Upgrade (u)", WHITE, 20);
+    fillRect(400, 600, 150, 50, RED);
+    drawString(400 + 20, 600 + 30, "Auto build (o)", WHITE, 20);
+}
+
+void Display_autobuild_upgrade_booster(){
+    fillRect(400, 680, 150, 50, BLUE);
+    drawString(400 + 20, 680 + 30, "Upgrade (u)", WHITE, 20);
 }
 
 

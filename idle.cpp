@@ -25,12 +25,18 @@ int main()
     bool auto_build_active = false; // disengaging auto build at initialization
     auto last_autobuild_time = std::chrono::high_resolution_clock::now();
 
+    bool maxMarketingActive = false;
+    float maxMarketingStartTime = 0.0f;
+    const float maxMarketingDuration = 30.0f;
+
     std::vector<int> budgetHistory; // Storing evolving budget
     int rounds_count = 0;
     int gap_round = 1000000;
     double max_funds = factory.wallet.budget;
 
     const std::string components[5] = {"electronics", "engine", "frame", "glass", "wheel"};
+
+    double autobuild_gap = 5.0f;
 
     while (true) {
 
@@ -45,8 +51,14 @@ int main()
 
         factory.wallet.update_sell_rate();
 
+
         Display_background();
 
+        // Displaying elapsed time
+
+        std::ostringstream oss_game_time;
+        oss_game_time << "Game time : " << delta_time;
+        drawString(700, 35, oss_game_time.str(), Color(245, 203, 92), 30);
 
         // -------------- CARS : ----------------
 
@@ -149,24 +161,36 @@ int main()
         drawString(buy1buttonX + 15, by + 22, "Buy x1 (t)", BLACK, 20);
 
 
-        // -------------- BOOSTERS : ----------------
+        // -------------- BOOSTERS : ---------------- // All set to 0 for testing
 
-        if (factory.total_volume_built > 50){
+        if (factory.total_volume_built > 0){
             Display_buildmaxcar_booster();
         }
 
-        if (factory.total_volume_built > 100){
+        if (factory.total_volume_built > 0){
             Display_buymoreqty_booster();
         }
 
-        if (factory.total_volume_built > 200){
+        if (factory.total_volume_built > 0){
             Display_maxmarketing_booster();
         }
 
-        if (factory.total_volume_built > 300 && auto_build_active == false){
+        if (maxMarketingActive) {
+            float currentTime = delta_time;
+            if (currentTime - maxMarketingStartTime >= maxMarketingDuration) {
+                maxMarketingActive = false;
+                factory.wallet.update_popularity();
+            }
+        }
+
+        if (factory.total_volume_built > 0){
+            Display_autobuild_upgrade_booster();
+        }
+
+        if (factory.total_volume_built > 0 && auto_build_active == false){
             Display_autobuild_inactive_booster();
         }
-        if (factory.total_volume_built > 300 && auto_build_active == true){
+        if (factory.total_volume_built > 0 && auto_build_active == true){
             Display_autobuild_active_booster();
         }
 
@@ -272,10 +296,14 @@ int main()
         } else if (key == DOWN && factory.wallet.sell_price > 100) {
             factory.wallet.set_sell_price(factory.wallet.sell_price - 100);
         }
-        bool UPDATE_POPULARITY = rounds_count % 100 == 0;
+
+
+        bool UPDATE_POPULARITY = rounds_count % 100 == 0; // generate random [0,100] popularity every 10 secs
         if (UPDATE_POPULARITY){
             factory.wallet.update_popularity();
         }
+
+
         factory.wallet.update_sell_rate();
 
         // Selling cars according to demand
@@ -303,19 +331,35 @@ int main()
             // TODO
         }
 
-        // Engage / disengage autobuild
+        // Max Marketing
+        if (key == int('k')) {
+            if (factory.wallet.budget > 1000){
+                factory.wallet.budget -= 1000;
+                factory.wallet.popularity = 100.0f;
+                maxMarketingActive = true;
+                maxMarketingStartTime = delta_time;
+            }
+            else {
+                std::cout<<"insufficient budget"<<std::endl;
+            }
+        }
+
+        // -------------- AUTOBUILD : ----------------
+
+        //activate / deactivate autobuild
         if (key == int('o')) {
             auto_build_active = !auto_build_active;
         }
+
 
         // Running auto build fonction
         if (auto_build_active) {
             auto now = std::chrono::high_resolution_clock::now();
             std::chrono::duration<float> elapsed_autobuild = now - last_autobuild_time;
 
-            if (elapsed_autobuild.count() >= 5.0f) {
-                if (factory.can_build_car()) {
-                    factory.build_car();
+            if (elapsed_autobuild.count() >= autobuild_gap) {
+                if (factory.can_buy_car()) {
+                    factory.buy_and_build_car();
                 }
                 last_autobuild_time = now;
             }
@@ -323,15 +367,12 @@ int main()
 
         // Upgrade autobuild
         if (key == int('u')) {
-            // add 0.1 car per second
-            // price = 10.000
-            // TODO
-        }
-
-        // Max Marketing
-        if (key == int('k')) {
-            // set popularity to 100 for 30 secs
-            // TODO
+            if (factory.wallet.budget > 1000){
+                autobuild_gap = autobuild_gap/1.05;
+            }
+            else{
+                std::cout<<"not enough budget"<<std::endl;
+            }
         }
 
 
@@ -339,6 +380,7 @@ int main()
         if (key == Escape){
             break;
         }
+
         if (factory.wallet.budget > max_funds){
             max_funds = factory.wallet.budget;
         }

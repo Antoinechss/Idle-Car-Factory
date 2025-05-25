@@ -6,6 +6,7 @@ void Display_buymoreqty_booster();
 void Display_maxmarketing_booster();
 void Display_autobuild_inactive_booster();
 void Display_autobuild_active_booster();
+void Display_autobuild_upgrade_booster();
 
 // -------------- Header ----------------
 

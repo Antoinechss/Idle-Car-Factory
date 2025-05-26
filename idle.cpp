@@ -318,6 +318,10 @@ int main()
 
         // -------------- AUTOBUILD : ----------------
 
+        std::ostringstream oss_autobuild_gap;
+        oss_autobuild_gap << "Autobuild rate : " << autobuild_gap;
+        drawString(400,760, oss_autobuild_gap.str(), BLACK, 20);
+
         //activate / deactivate autobuild
         if (key == int('o')) {
             auto_build_active = !auto_build_active;

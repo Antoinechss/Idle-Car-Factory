@@ -28,7 +28,7 @@ void Display_background(){
     drawString(740,290, "time", BLACK, 15);
 
     // Boosters
-    fillRect(600, 450, 300, 450, Color(255, 255, 255));
+    fillRect(600, 450, 300, 300, Color(255, 255, 255));
     drawString(702, 435, "BOOSTERS", BLACK, 20);
 
     // Market Overview

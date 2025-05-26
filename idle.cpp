@@ -67,7 +67,7 @@ int main()
         oss_car_inventory << "Unsold Inventory: " << factory.car_inventory << " Cars";
         drawString(85, 140, oss_car_inventory.str(), BLACK, 23);
 
-        // Build Car
+        // Build Car -
         if (factory.can_build_car()) {
             fillRect(buildButtonX, buildButtonY, buildButtonW, buildButtonH, GREEN);
         } else {

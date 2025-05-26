@@ -113,53 +113,31 @@ int main()
         int buy1buttonW = 115;
         int buy1buttonH = 30;
         int gap = 60;
-        int by;
 
-        int j = 0;
-        by = buy1buttonY_start + j * gap;
-        if (factory.wallet.budget >= factory.inventory[components[j]].first) {
-            fillRect(buy1buttonX, by, buy1buttonW, buy1buttonH, GREEN);
-        } else {
-            fillRect(buy1buttonX, by, buy1buttonW, buy1buttonH, RED);
+        std::string shortcutKeys = "azert";  // raccourcis clavier AZERTY, 1 touche par composant
+
+        for (int j = 0; j < 5; ++j) {
+            int by = buy1buttonY_start + j * gap;
+
+            // Couleur bouton selon fonds disponibles
+            if (factory.wallet.budget >= factory.inventory[components[j]].first) {
+                fillRect(buy1buttonX, by, buy1buttonW, buy1buttonH, GREEN);
+            } else {
+                fillRect(buy1buttonX, by, buy1buttonW, buy1buttonH, RED);
+            }
+
+            // Conversion char → string pour afficher correctement la touche
+            char shortcut = shortcutKeys[j];
+            std::string keyLabel(1, shortcut);
+
+            drawString(
+                buy1buttonX + 15,
+                by + 22,
+                "Buy x1 (" + keyLabel + ")",
+                BLACK,
+                20
+                );
         }
-        drawString(buy1buttonX + 15, by + 22, "Buy x1 (a)", BLACK, 20);
-        j+=1;
-
-        by = buy1buttonY_start + j * gap;
-        if (factory.wallet.budget >= factory.inventory[components[j]].first) {
-            fillRect(buy1buttonX, by, buy1buttonW, buy1buttonH, GREEN);
-        } else {
-            fillRect(buy1buttonX, by, buy1buttonW, buy1buttonH, RED);
-        }
-        drawString(buy1buttonX + 15, by + 22, "Buy x1 (z)", BLACK, 20);
-        j+=1;
-
-        by = buy1buttonY_start + j * gap;
-        if (factory.wallet.budget >= factory.inventory[components[j]].first) {
-            fillRect(buy1buttonX, by, buy1buttonW, buy1buttonH, GREEN);
-        } else {
-            fillRect(buy1buttonX, by, buy1buttonW, buy1buttonH, RED);
-        }
-        drawString(buy1buttonX + 15, by + 22, "Buy x1 (e)", BLACK, 20);
-        j+=1;
-
-        by = buy1buttonY_start + j * gap;
-        if (factory.wallet.budget >= factory.inventory[components[j]].first) {
-            fillRect(buy1buttonX, by, buy1buttonW, buy1buttonH, GREEN);
-        } else {
-            fillRect(buy1buttonX, by, buy1buttonW, buy1buttonH, RED);
-        }
-        drawString(buy1buttonX + 15, by + 22, "Buy x1 (r)", BLACK, 20);
-        j+=1;
-
-        by = buy1buttonY_start + j * gap;
-        if (factory.wallet.budget >= factory.inventory[components[j]].first) {
-            fillRect(buy1buttonX, by, buy1buttonW, buy1buttonH, GREEN);
-        } else {
-            fillRect(buy1buttonX, by, buy1buttonW, buy1buttonH, RED);
-        }
-        drawString(buy1buttonX + 15, by + 22, "Buy x1 (t)", BLACK, 20);
-
 
         // -------------- BOOSTERS : ---------------- // All set to 0 for testing
 
@@ -176,8 +154,7 @@ int main()
         }
 
         if (maxMarketingActive) {
-            float currentTime = delta_time;
-            if (currentTime - maxMarketingStartTime >= maxMarketingDuration) {
+            if (delta_time - maxMarketingStartTime >= maxMarketingDuration) {
                 maxMarketingActive = false;
                 factory.wallet.update_popularity();
             }
@@ -223,11 +200,6 @@ int main()
         oss_earning_rate << "Earned/sec :            " << factory.wallet.earning_rate;
         drawString(marketX, marketstartY, oss_earning_rate.str(), WHITE, 20);
         marketstartY += 66;
-
-        //TO DO A WORKING ONE
-        std::ostringstream oss_cars_sold_per_sec;
-        oss_cars_sold_per_sec << "Retirer ça car égal a sell rate :            " << factory.wallet.cars_sold_per_sec;
-        drawString(marketX, marketstartY, oss_cars_sold_per_sec.str(), WHITE, 20);
 
         // Display sell price (+/- buttons implemented in graphics.cpp)
         std::ostringstream oss_sell_price;

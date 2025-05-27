@@ -1,5 +1,10 @@
 # Car-Factory
-A simple and intuitive car factory Idle game 
+
+A simple and intuitive car factory Idle game. Industry management. 
+
+Buy components and build cars to generate revenues. 
+
+Play with your keyboard 
 
 
 

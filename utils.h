@@ -3,8 +3,8 @@
 using namespace Imagine;
 
 // Définition des touches clavier
-#define Escape  16777216
 
+#define Escape  16777216
 #define LEFT 16777234 //gauche
 #define UP 16777235 //haut
 #define DOWN 16777237 //bas
